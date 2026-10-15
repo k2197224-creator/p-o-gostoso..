@@ -1,0 +1,3624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#b5121b">
+
+<title>Panificadora Pão Gostoso — PPG</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#b5121b;
+    color:#fff;
+    font-family:"Inter",sans-serif;
+    overflow-x:hidden;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+textarea,
+select{
+    font:inherit;
+}
+
+/* =========================================================
+FUNDO
+========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-3;
+    background:
+    radial-gradient(circle at 10% 10%,rgba(255,255,255,.045),transparent 25%),
+    radial-gradient(circle at 90% 30%,rgba(255,255,255,.035),transparent 30%);
+}
+
+.noise{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    pointer-events:none;
+    opacity:.018;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+.orb{
+    position:fixed;
+    width:400px;
+    height:400px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.07;
+    pointer-events:none;
+    z-index:-2;
+    animation:orbFloat 12s ease-in-out infinite alternate;
+}
+
+.orb.one{
+    background:#e21b2d;
+    top:-180px;
+    left:-180px;
+}
+
+.orb.two{
+    background:#ff5964;
+    right:-200px;
+    top:45%;
+    animation-delay:-5s;
+}
+
+.orb.three{
+    background:#b5121b;
+    bottom:-200px;
+    left:40%;
+    animation-delay:-8s;
+}
+
+@keyframes orbFloat{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+}
+
+/* =========================================================
+PRELOADER
+========================================================= */
+
+#preloader{
+    position:fixed;
+    inset:0;
+    background:#b5121b;
+    z-index:10000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.8s ease;
+}
+
+#preloader.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.loader-content{
+    text-align:center;
+    width:min(80%,500px);
+}
+
+.loader-logo{
+    width:min(280px,70vw);
+    margin:auto;
+    opacity:0;
+    transform:scale(.9);
+    animation:logoIntro 1.2s ease forwards;
+}
+
+.loader-line{
+    height:2px;
+    width:0;
+    margin:30px auto 0;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #fff,
+        transparent
+    );
+    animation:lineIntro 1.4s ease .5s forwards;
+}
+
+.loader-text{
+    margin-top:18px;
+    color:#f0f0f0;
+    font-size:10px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    opacity:0;
+    animation:fadeIn 1s ease 1s forwards;
+}
+
+@keyframes logoIntro{
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@keyframes lineIntro{
+    to{
+        width:100%;
+    }
+}
+
+@keyframes fadeIn{
+    to{
+        opacity:1;
+    }
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+/* O HEADER NÃO É MAIS FIXO.
+   ELE FICA NORMAL NO TOPO DA PÁGINA. */
+
+header{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:5000;
+    padding:18px 5%;
+}
+
+/* REMOVIDO O FUNDO BRANCO DO SCROLL */
+
+header.scrolled{
+    background:transparent;
+    backdrop-filter:none;
+    border-bottom:none;
+    box-shadow:none;
+}
+
+.nav{
+    max-width:1250px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.nav-logo{
+    width:82px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:28px;
+}
+
+.nav-links a{
+    color:#fff;
+    font-size:12px;
+    position:relative;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#fff;
+}
+
+.nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-7px;
+    width:0;
+    height:2px;
+    background:#fff;
+    transition:.3s;
+}
+
+.nav-links a:hover::after{
+    width:100%;
+}
+
+.nav-button{
+    padding:11px 18px;
+    border:1px solid #fff;
+    border-radius:50px;
+    color:#fff!important;
+}
+
+.nav-button:hover{
+    background:#fff;
+    color:#920d15!important;
+}
+
+.menu-button{
+    display:none;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.3);
+    background:#920d15;
+    color:#fff;
+    cursor:pointer;
+}
+
+/* =========================================================
+HERO
+========================================================= */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:17vh 5% 80px;
+    position:relative;
+    overflow:hidden;
+    background:
+    radial-gradient(circle at 72% 30%,rgba(255,255,255,.08),transparent 24%),
+    radial-gradient(circle at center,#b5121b 0%,#a90f18 48%,#850b13 100%);
+}
+
+.hero-grid{
+    position:absolute;
+    inset:0;
+    background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:80px 80px;
+    mask-image:linear-gradient(to bottom,#000,transparent 80%);
+}
+
+.hero-content{
+    width:min(1100px,100%);
+    text-align:center;
+    position:relative;
+    z-index:2;
+}
+
+.main-logo{
+    width:min(430px,80vw);
+    max-height:230px;
+    object-fit:contain;
+    margin:0 auto 30px;
+    filter:
+    drop-shadow(0 20px 50px rgba(0,0,0,.12))
+    drop-shadow(0 0 35px rgba(255,255,255,.13));
+    animation:
+    heroLogo 1.4s cubic-bezier(.2,.8,.2,1) .3s both,
+    logoFloat 6s ease-in-out 2s infinite;
+}
+
+@keyframes heroLogo{
+    from{
+        opacity:0;
+        transform:translateY(-35px) scale(.85);
+        filter:blur(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+        filter:blur(0);
+    }
+}
+
+@keyframes logoFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+.hero-kicker{
+    color:#fff;
+    text-transform:uppercase;
+    letter-spacing:6px;
+    font-size:10px;
+    margin-bottom:18px;
+    animation:fadeUp 1s ease .8s both;
+}
+
+.hero-title{
+    font-family:"DM Serif Display",serif;
+    font-size:clamp(45px,7vw,88px);
+    font-weight:400;
+    line-height:.95;
+    max-width:900px;
+    margin:auto;
+    color:#fff;
+    animation:fadeUp 1s ease 1s both;
+}
+
+.hero-title span{
+    color:#fff;
+}
+
+.hero-description{
+    max-width:570px;
+    margin:28px auto 0;
+    color:#f5f5f5;
+    font-size:15px;
+    line-height:1.8;
+    animation:fadeUp 1s ease 1.15s both;
+}
+
+.hero-actions{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:35px;
+    animation:fadeUp 1s ease 1.3s both;
+}
+
+.btn{
+    display:inline-block;
+    border-radius:100px;
+    padding:14px 23px;
+    border:1px solid rgba(255,255,255,.2);
+    transition:.35s;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:#920d15;
+    color:#fff;
+    border-color:#920d15;
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+    background:#750a11;
+    box-shadow:0 15px 40px rgba(255,255,255,.2);
+}
+
+.btn-dark{
+    background:transparent;
+    color:#fff;
+    border-color:#fff;
+}
+
+.btn-dark:hover{
+    background:#fff;
+    color:#920d15;
+    transform:translateY(-3px);
+}
+
+.hero-info{
+    margin-top:70px;
+    display:flex;
+    justify-content:center;
+    gap:50px;
+    flex-wrap:wrap;
+    color:#f0f0f0;
+    font-size:11px;
+    animation:fadeUp 1s ease 1.5s both;
+}
+
+.hero-info strong{
+    display:block;
+    color:#fff;
+    font-size:13px;
+    margin-bottom:5px;
+}
+
+.scroll-indicator{
+    position:absolute;
+    bottom:28px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#ddd;
+    font-size:9px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+.scroll-indicator::after{
+    content:"";
+    display:block;
+    width:2px;
+    height:35px;
+    background:linear-gradient(#fff,transparent);
+    margin:12px auto 0;
+    animation:scrollLine 1.5s infinite;
+}
+
+@keyframes scrollLine{
+    0%,100%{
+        opacity:.3;
+        transform:scaleY(.7);
+    }
+
+    50%{
+        opacity:1;
+        transform:scaleY(1);
+    }
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================================================
+SEÇÕES
+========================================================= */
+
+section{
+    padding:120px 5%;
+    position:relative;
+    overflow:hidden;
+}
+
+section::before,
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    opacity:.10;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='460' viewBox='0 0 460 460'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M55 64 C68 100 68 130 57 164 M59 87 C43 80 36 70 33 57 M62 105 C77 99 86 90 90 78 M60 124 C45 119 36 111 32 99 M58 143 C73 137 81 128 85 116'/%3E%3Cpath d='M268 58 C294 49 327 55 342 75 C350 86 345 97 332 102 L278 118 C260 122 246 111 242 99 C239 88 247 68 268 58 Z M268 65 L287 84 M291 58 L310 77 M313 61 L331 78'/%3E%3Cpath d='M49 309 C62 278 98 268 125 286 C136 293 143 302 143 312 C130 302 118 302 106 307 C91 313 80 325 76 340 C63 334 54 323 49 309 Z M68 320 C80 303 93 295 108 293 M86 333 C96 316 109 308 124 307'/%3E%3Cpath d='M292 289 L357 289 L352 328 C350 342 340 350 326 350 L320 350 C306 350 297 342 295 328 Z M357 298 C377 294 386 306 381 319 C377 328 369 332 354 331 M308 272 C300 261 307 251 313 244 M328 272 C320 261 327 251 333 244'/%3E%3Cpath d='M326 397 C331 369 356 355 383 361 C409 367 424 389 418 412 C412 435 390 447 365 443 C340 440 322 425 326 397 Z M350 376 L368 394 M374 369 L391 388'/%3E%3Cpath d='M12 212 C66 187 102 210 141 200 C179 190 198 169 229 172 M377 176 C414 163 438 180 458 198'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat:repeat;
+    background-size:460px 460px;
+}
+
+section > *,
+.hero > *{
+    position:relative;
+    z-index:1;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.section-header{
+    margin-bottom:55px;
+    position:relative;
+}
+
+.section-header::after{
+    content:"";
+    display:block;
+    width:74px;
+    height:3px;
+    margin-top:22px;
+    border-radius:10px;
+    background:#fff;
+}
+
+.eyebrow{
+    color:#fff;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:5px;
+    margin-bottom:15px;
+    font-weight:700;
+}
+
+.section-title{
+    font-family:"DM Serif Display",serif;
+    font-size:clamp(38px,5vw,64px);
+    font-weight:400;
+    color:#fff;
+}
+
+.section-description{
+    color:#f0f0f0;
+    line-height:1.8;
+    max-width:580px;
+    margin-top:15px;
+}
+
+/* =========================================================
+SOBRE
+========================================================= */
+
+.about-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:70px;
+    align-items:center;
+}
+
+.about-text{
+    background:rgba(255,255,255,.96);
+    color:#920d15;
+    border-radius:28px;
+    padding:42px;
+    box-shadow:0 18px 55px rgba(0,0,0,.10);
+}
+
+.about-text .section-title{
+    color:#920d15;
+}
+
+.about-text .eyebrow{
+    color:#b5121b;
+}
+
+.about-text p{
+    color:#5b171b;
+    line-height:1.9;
+    font-size:15px;
+    margin-bottom:20px;
+}
+
+.about-card{
+    min-height:400px;
+    border:1px solid rgba(255,255,255,.13);
+    border-radius:30px;
+    overflow:hidden;
+    position:relative;
+    background:#920d15;
+    display:flex;
+    align-items:flex-end;
+    box-shadow:0 20px 60px rgba(0,0,0,.07);
+}
+
+.about-card img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:.82;
+    transition:.8s;
+}
+
+.about-card:hover img{
+    transform:scale(1.06);
+}
+
+.about-card-content{
+    position:relative;
+    z-index:2;
+    padding:35px;
+    width:100%;
+    background:linear-gradient(
+        transparent,
+        rgba(0,0,0,.85)
+    );
+    color:#fff;
+}
+
+.about-card-content span{
+    color:#eee;
+    font-size:10px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+}
+
+.about-card-content h3{
+    font-family:"DM Serif Display",serif;
+    font-size:34px;
+    font-weight:400;
+    margin-top:8px;
+}
+
+/* =========================================================
+PRODUTOS
+========================================================= */
+
+.product-category{
+    margin-bottom:90px;
+}
+
+.category-title{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:28px;
+    background:rgba(255,255,255,.96);
+    color:#920d15;
+    padding:14px 18px;
+    border-radius:16px;
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+}
+
+.category-title h3{
+    font-family:"DM Serif Display",serif;
+    font-size:38px;
+    font-weight:400;
+    color:#920d15;
+}
+
+.category-line{
+    height:2px;
+    flex:1;
+    background:rgba(146,13,21,.18);
+}
+
+.category-icon{
+    font-size:25px;
+}
+
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.product-card{
+    position:relative;
+    height:420px;
+    border-radius:24px;
+    overflow:hidden;
+    background:#f5f5f5;
+    border:1px solid rgba(255,255,255,.1);
+    cursor:pointer;
+    transition:.4s;
+}
+
+.product-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(255,255,255,.35);
+    box-shadow:0 25px 60px rgba(255,255,255,.12);
+}
+
+.product-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:transform .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.product-card:hover img{
+    transform:scale(1.09);
+}
+
+.product-overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:28px;
+    background:linear-gradient(
+        transparent 30%,
+        rgba(0,0,0,.75)
+    );
+}
+
+.product-number{
+    color:#fff;
+    font-size:10px;
+    letter-spacing:3px;
+    margin-bottom:8px;
+}
+
+.product-name{
+    font-family:"DM Serif Display",serif;
+    font-size:30px;
+    color:#fff;
+}
+
+.product-description{
+    color:#eee;
+    font-size:12px;
+    margin-top:6px;
+}
+
+.products-section-title{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#fff;
+    color:#920d15;
+    border:0;
+    border-radius:14px;
+    padding:14px 18px;
+    margin:45px 0 20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.07);
+}
+
+.products-section-title::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:rgba(146,13,21,.18);
+}
+
+/* =========================================================
+VÍDEO
+========================================================= */
+
+.video-section{
+    background:#920d15;
+}
+
+.video-box{
+    position:relative;
+    overflow:hidden;
+    border-radius:32px;
+    border:1px solid rgba(255,255,255,.14);
+    background:#111;
+    box-shadow:0 25px 80px rgba(0,0,0,.12);
+}
+
+.video-box video{
+    display:block;
+    width:100%;
+    max-height:680px;
+    object-fit:cover;
+    background:#111;
+}
+
+.video-caption{
+    padding:30px;
+    background:#920d15;
+}
+
+.video-caption h3{
+    font-family:"DM Serif Display",serif;
+    font-size:34px;
+    font-weight:400;
+    color:#fff;
+}
+
+.video-caption p{
+    color:#f0f0f0;
+    line-height:1.7;
+    margin-top:8px;
+}
+
+/* =========================================================
+ANTES E DEPOIS
+========================================================= */
+
+.before-after-section{
+    background:#920d15;
+}
+
+.before-after-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.before-after-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:28px;
+    background:#b5121b;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 20px 50px rgba(0,0,0,.07);
+    transition:.4s;
+}
+
+.before-after-card:hover{
+    transform:translateY(-7px);
+    box-shadow:0 30px 70px rgba(255,255,255,.12);
+}
+
+.before-after-card img{
+    width:100%;
+    height:500px;
+    object-fit:cover;
+    transition:.7s;
+}
+
+.before-after-card:hover img{
+    transform:scale(1.03);
+}
+
+.before-after-label{
+    position:absolute;
+    top:20px;
+    left:20px;
+    padding:9px 16px;
+    border-radius:50px;
+    background:#920d15;
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.before-after-info{
+    padding:25px;
+}
+
+.before-after-info h3{
+    font-family:"DM Serif Display",serif;
+    font-size:30px;
+    font-weight:400;
+}
+
+.before-after-info p{
+    color:#f0f0f0;
+    font-size:13px;
+    line-height:1.7;
+    margin-top:8px;
+}
+
+.reform-text{
+    max-width:750px;
+    margin:0 auto 45px;
+    text-align:center;
+}
+
+.reform-text p{
+    color:#f0f0f0;
+    line-height:1.8;
+}
+
+/* =========================================================
+DESTAQUE
+========================================================= */
+
+.highlight{
+    padding-top:40px;
+}
+
+.highlight-box{
+    min-height:400px;
+    border-radius:35px;
+    border:1px solid rgba(255,255,255,.12);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    overflow:hidden;
+    background:#b5121b;
+    box-shadow:0 20px 60px rgba(0,0,0,.06);
+}
+
+.highlight-image{
+    min-height:400px;
+    overflow:hidden;
+}
+
+.highlight-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:1s;
+}
+
+.highlight-box:hover .highlight-image img{
+    transform:scale(1.06);
+}
+
+.highlight-content{
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    background:rgba(255,255,255,.96);
+    color:#920d15;
+}
+
+.highlight-content h2{
+    font-family:"DM Serif Display",serif;
+    font-size:clamp(40px,5vw,70px);
+    font-weight:400;
+    color:#920d15;
+}
+
+.highlight-content p{
+    color:#5b171b;
+    line-height:1.8;
+    margin-top:18px;
+}
+
+/* =========================================================
+AVALIAÇÕES
+========================================================= */
+
+.google-section{
+    background:#920d15;
+}
+
+.google-rating{
+    text-align:center;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:30px;
+    padding:60px 25px;
+    background:#fff;
+    color:#920d15;
+    box-shadow:0 15px 45px rgba(0,0,0,.09);
+}
+
+.google-logo{
+    font-size:15px;
+    letter-spacing:2px;
+    color:#5b171b;
+    margin-bottom:15px;
+}
+
+.rating-number{
+    font-family:"DM Serif Display",serif;
+    font-size:clamp(80px,13vw,150px);
+    line-height:.8;
+    color:#920d15;
+}
+
+.stars{
+    color:#b5121b;
+    letter-spacing:8px;
+    margin-top:25px;
+    font-size:20px;
+}
+
+.rating-label{
+    color:#5b171b;
+    font-size:11px;
+    margin-top:15px;
+}
+
+.google-button{
+    margin-top:30px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 24px;
+    border-radius:100px;
+    background:#920d15;
+    color:#fff;
+    font-size:12px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.google-button:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 40px rgba(181,18,27,.25);
+}
+
+/* =========================================================
+COMENTÁRIOS
+========================================================= */
+
+.comments-title{
+    text-align:center;
+    margin-top:75px;
+    margin-bottom:35px;
+}
+
+.comments-title h3{
+    font-family:"DM Serif Display",serif;
+    font-size:42px;
+    font-weight:400;
+    color:#fff;
+}
+
+.comments-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.review{
+    text-align:left;
+    border:1px solid rgba(146,13,21,.10);
+    background:#fff;
+    color:#920d15;
+    padding:30px;
+    border-radius:22px;
+    transition:.35s;
+    box-shadow:0 10px 35px rgba(0,0,0,.035);
+}
+
+.review:hover{
+    transform:translateY(-6px);
+    border-color:rgba(181,18,27,.25);
+}
+
+.review-stars{
+    color:#b5121b;
+    font-size:13px;
+    letter-spacing:3px;
+    margin-bottom:18px;
+}
+
+.review p{
+    color:#5b171b;
+    line-height:1.7;
+    font-size:13px;
+}
+
+.review-author{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:22px;
+}
+
+.review-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#920d15;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+}
+
+.review-author strong{
+    font-size:12px;
+}
+
+.review-author small{
+    display:block;
+    color:#7d4b4f;
+    margin-top:3px;
+}
+
+/* =========================================================
+FORMULÁRIO DE COMENTÁRIO
+========================================================= */
+
+.comment-form-box{
+    margin:45px auto 0;
+    max-width:760px;
+    padding:35px;
+    border:1px solid rgba(146,13,21,.10);
+    border-radius:26px;
+    background:#fff;
+    color:#920d15;
+    text-align:left;
+    transition:.4s;
+    box-shadow:0 15px 45px rgba(0,0,0,.05);
+}
+
+.comment-form-box:hover{
+    border-color:rgba(181,18,27,.3);
+    transform:translateY(-3px);
+}
+
+.comment-form-box h4{
+    font-family:"DM Serif Display",serif;
+    font-size:30px;
+    font-weight:400;
+    margin-bottom:8px;
+    color:#920d15;
+}
+
+.comment-form-box > p{
+    color:#5b171b;
+    font-size:12px;
+    line-height:1.7;
+    margin-bottom:22px;
+}
+
+.comment-form{
+    display:grid;
+    gap:13px;
+}
+
+.comment-form .field{
+    width:100%;
+}
+
+.comment-form textarea.field{
+    min-height:140px;
+}
+
+.comment-submit{
+    border:none;
+    padding:16px 20px;
+    border-radius:13px;
+    background:#920d15;
+    color:#fff;
+    cursor:pointer;
+    font-weight:700;
+    transition:.35s;
+}
+
+.comment-submit:hover{
+    transform:translateY(-3px);
+    background:#750a11;
+    box-shadow:0 15px 40px rgba(181,18,27,.2);
+}
+
+.comment-note{
+    color:#7d4b4f;
+    font-size:10px;
+    line-height:1.6;
+    margin-top:12px;
+}
+
+/* =========================================================
+HORÁRIOS
+========================================================= */
+
+.hours-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+}
+
+.hours-list{
+    border-top:1px solid rgba(255,255,255,.12);
+}
+
+.hours-row{
+    display:flex;
+    justify-content:space-between;
+    padding:17px 0;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    color:#f0f0f0;
+    font-size:13px;
+}
+
+.hours-row span:last-child{
+    color:#fff;
+    font-weight:600;
+}
+
+.hours-note{
+    padding:25px;
+    background:#fff;
+    border:1px solid rgba(146,13,21,.10);
+    border-radius:20px;
+    color:#920d15;
+    line-height:1.7;
+    font-size:12px;
+}
+
+/* =========================================================
+LOCALIZAÇÃO
+========================================================= */
+
+.location-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.location-card{
+    min-height:340px;
+    border-radius:28px;
+    border:1px solid rgba(146,13,21,.10);
+    background:#fff;
+    color:#920d15;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    box-shadow:0 15px 45px rgba(0,0,0,.05);
+}
+
+.location-card h3{
+    font-family:"DM Serif Display",serif;
+    font-size:38px;
+    font-weight:400;
+    color:#920d15;
+}
+
+.location-card p{
+    color:#5b171b;
+    line-height:1.8;
+    margin-top:15px;
+}
+
+.map-card{
+    padding:0;
+    overflow:hidden;
+    position:relative;
+    min-height:340px;
+}
+
+.map-pattern{
+    position:absolute;
+    inset:0;
+    background-color:#920d15;
+    background-image:
+    linear-gradient(
+        35deg,
+        transparent 48%,
+        rgba(255,255,255,.08) 49%,
+        transparent 50%
+    ),
+    linear-gradient(
+        -35deg,
+        transparent 48%,
+        rgba(255,255,255,.06) 49%,
+        transparent 50%
+    );
+    background-size:80px 80px;
+}
+
+.map-pin{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#920d15;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:
+    0 0 0 15px rgba(255,255,255,.08),
+    0 0 0 30px rgba(255,255,255,.03);
+    animation:pinPulse 2.5s infinite;
+}
+
+@keyframes pinPulse{
+    50%{
+        box-shadow:
+        0 0 0 24px rgba(255,255,255,.05),
+        0 0 0 45px rgba(255,255,255,.015);
+    }
+}
+
+/* =========================================================
+TRABALHE CONOSCO
+========================================================= */
+
+.work-section{
+    background:#920d15;
+}
+
+.work-grid{
+    display:grid;
+    grid-template-columns:.8fr 1.2fr;
+    gap:70px;
+    align-items:start;
+}
+
+.work-copy h2{
+    font-family:"DM Serif Display",serif;
+    font-size:clamp(45px,6vw,80px);
+    font-weight:400;
+}
+
+.work-copy p{
+    color:#f0f0f0;
+    line-height:1.8;
+    margin-top:20px;
+}
+
+.work-form{
+    display:grid;
+    gap:14px;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.field{
+    width:100%;
+    border:1px solid rgba(146,13,21,.16);
+    background:#fff;
+    color:#920d15;
+    padding:16px 17px;
+    border-radius:13px;
+    outline:none;
+    transition:.3s;
+}
+
+.field::placeholder{
+    color:#8b6265;
+}
+
+.field:focus{
+    border-color:#b5121b;
+    background:#fff;
+    color:#920d15;
+    box-shadow:0 0 0 3px rgba(181,18,27,.08);
+}
+
+textarea.field{
+    min-height:130px;
+    resize:vertical;
+}
+
+.file-label{
+    border:1px dashed rgba(146,13,21,.25);
+    padding:18px;
+    border-radius:13px;
+    color:#920d15;
+    font-size:12px;
+    cursor:pointer;
+    background:#fff;
+}
+
+.file-label:hover{
+    border-color:#b5121b;
+    color:#920d15;
+}
+
+.file-label input{
+    display:none;
+}
+
+.submit-button{
+    border:none;
+    padding:17px;
+    border-radius:13px;
+    background:#b5121b;
+    color:#fff;
+    cursor:pointer;
+    font-weight:700;
+    transition:.3s;
+}
+
+.submit-button:hover{
+    transform:translateY(-2px);
+    background:#750a11;
+    box-shadow:0 15px 40px rgba(255,255,255,.15);
+}
+
+/* =========================================================
+CONTATO
+========================================================= */
+
+.contact{
+    text-align:center;
+}
+
+.contact-title{
+    font-family:"DM Serif Display",serif;
+    font-size:clamp(48px,8vw,100px);
+    font-weight:400;
+}
+
+.contact-sub{
+    color:#f0f0f0;
+    margin-top:15px;
+}
+
+.contact-buttons{
+    margin-top:35px;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+/* =========================================================
+INSTAGRAM
+========================================================= */
+
+.instagram-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:11px;
+    padding:14px 22px;
+    border-radius:100px;
+    background:#fff;
+    color:#920d15;
+    border:2px solid #fff;
+    font-size:12px;
+    font-weight:800;
+    transition:.35s;
+    box-shadow:0 12px 35px rgba(0,0,0,.12);
+}
+
+.instagram-button:hover{
+    transform:translateY(-4px) scale(1.02);
+    background:#920d15;
+    color:#fff;
+    box-shadow:0 18px 45px rgba(0,0,0,.2);
+}
+
+.instagram-icon{
+    width:21px;
+    height:21px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:2px solid currentColor;
+    border-radius:6px;
+    position:relative;
+}
+
+.instagram-icon::before{
+    content:"";
+    width:7px;
+    height:7px;
+    border:2px solid currentColor;
+    border-radius:50%;
+    position:absolute;
+}
+
+.instagram-icon::after{
+    content:"";
+    width:3px;
+    height:3px;
+    background:currentColor;
+    border-radius:50%;
+    position:absolute;
+    top:3px;
+    right:3px;
+}
+
+.instagram-handle{
+    font-weight:700;
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+footer{
+    border-top:1px solid rgba(255,255,255,.18);
+    padding:35px 5%;
+    background:#920d15;
+}
+
+.footer-inner{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.footer-logo{
+    width:75px;
+}
+
+.footer-text{
+    color:#ddd;
+    font-size:10px;
+    text-align:right;
+    line-height:1.6;
+}
+
+.footer-instagram{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    margin-top:10px;
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.footer-instagram:hover{
+    transform:translateY(-2px);
+    color:#fff;
+}
+
+.footer-instagram .instagram-icon{
+    width:18px;
+    height:18px;
+    border-width:1.7px;
+    border-radius:5px;
+}
+
+/* =========================================================
+WHATSAPP
+========================================================= */
+
+.whatsapp{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:4500;
+    width:58px;
+    height:58px;
+    background:#920d15;
+    color:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+    transition:.3s;
+}
+
+.whatsapp:hover{
+    transform:translateY(-5px) scale(1.05);
+}
+
+/* =========================================================
+REVEAL
+========================================================= */
+
+.reveal{
+    opacity:0;
+    transform:translateY(45px);
+    transition:
+    opacity .9s ease,
+    transform .9s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media(max-width:850px){
+
+    .nav-links{
+        position:absolute;
+        top:75px;
+        left:5%;
+        right:5%;
+        display:none;
+        flex-direction:column;
+        align-items:stretch;
+        gap:0;
+        padding:15px;
+        border:1px solid rgba(255,255,255,.18);
+        background:rgba(146,13,21,.98);
+        backdrop-filter:blur(20px);
+        border-radius:20px;
+        box-shadow:0 20px 50px rgba(0,0,0,.2);
+    }
+
+    .nav-links.open{
+        display:flex;
+    }
+
+    .nav-links a{
+        padding:15px;
+    }
+
+    .menu-button{
+        display:block;
+    }
+
+    .nav-button{
+        text-align:center;
+    }
+
+    .about-grid,
+    .highlight-box,
+    .hours-grid,
+    .location-grid,
+    .work-grid{
+        grid-template-columns:1fr;
+    }
+
+    .products-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .comments-grid{
+        grid-template-columns:1fr;
+    }
+
+    .before-after-grid{
+        grid-template-columns:1fr;
+    }
+
+    .highlight-content{
+        padding:40px 28px;
+    }
+
+    .highlight-image{
+        min-height:280px;
+    }
+
+    .work-grid{
+        gap:45px;
+    }
+
+    .before-after-card img{
+        height:400px;
+    }
+
+    .about-text{
+        padding:30px 22px;
+    }
+
+    section::before,
+    .hero::before{
+        opacity:.075;
+    }
+}
+
+@media(max-width:550px){
+
+    section{
+        padding:90px 5%;
+    }
+
+    .hero{
+        padding-top:18vh;
+    }
+
+    .main-logo{
+        width:min(320px,80vw);
+    }
+
+    .hero-title{
+        font-size:43px;
+    }
+
+    .hero-description{
+        font-size:13px;
+    }
+
+    .hero-info{
+        gap:25px;
+    }
+
+    .products-grid{
+        grid-template-columns:1fr !important;
+    }
+
+    .product-card{
+        height:390px;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .footer-text{
+        text-align:center;
+    }
+
+    .category-title h3{
+        font-size:32px;
+    }
+
+    .video-caption{
+        padding:22px;
+    }
+
+    .video-caption h3{
+        font-size:27px;
+    }
+
+    .before-after-card img{
+        height:330px;
+    }
+
+    .instagram-button{
+        width:100%;
+        max-width:300px;
+    }
+}
+
+/* =========================================================
+GALERIA MOBILE
+========================================================= */
+
+@media(max-width:600px){
+
+    .products-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:14px !important;
+        width:100%;
+    }
+
+    .product-card{
+        height:230px !important;
+        min-height:230px !important;
+        border-radius:16px !important;
+        overflow:hidden;
+    }
+
+    .product-card img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        display:block;
+    }
+}
+
+@media(max-width:380px){
+
+    .products-grid{
+        gap:10px !important;
+    }
+
+    .product-card{
+        height:195px !important;
+        min-height:195px !important;
+        border-radius:14px !important;
+    }
+}
+
+/* =========================================================
+PÃES — VÍDEO + FOTOS
+========================================================= */
+
+/* Continua logo depois dos sabores, sem aquele espaço grande */
+.paes-section{
+    padding-top:30px;
+}
+
+/* Caixa do vídeo (sem botões, sem som) */
+.paes-video-box{
+    position:relative;
+    overflow:hidden;
+    border-radius:32px;
+    border:1px solid rgba(255,255,255,.14);
+    background:#750a11;
+    box-shadow:0 25px 80px rgba(0,0,0,.12);
+}
+
+.paes-video-box video{
+    display:block;
+    width:100%;
+    height:auto;
+    max-height:80vh;
+    object-fit:contain;
+    background:#750a11;
+    pointer-events:none;
+}
+
+/* Fotos dos pães (MM1, MM2, MM3) */
+.paes-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.pao-card{
+    position:relative;
+    height:420px;
+    border-radius:24px;
+    overflow:hidden;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.pao-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(255,255,255,.35);
+    box-shadow:0 25px 60px rgba(255,255,255,.12);
+}
+
+.pao-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:transform .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.pao-card:hover img{
+    transform:scale(1.09);
+}
+
+/* Se a foto ainda não estiver na pasta, o espaço fica reservado */
+.pao-card.sem-foto{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:2px dashed rgba(255,255,255,.35);
+    background:rgba(255,255,255,.06);
+}
+
+.pao-card.sem-foto img{
+    display:none;
+}
+
+.pao-card.sem-foto::after{
+    content:"📷  " attr(data-label);
+    color:#fff;
+    font-size:13px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    opacity:.8;
+}
+
+@media(max-width:850px){
+
+    .paes-video-box{
+        border-radius:24px;
+    }
+}
+
+@media(max-width:600px){
+
+    .paes-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:14px;
+    }
+
+    .pao-card{
+        height:230px;
+        border-radius:16px;
+    }
+
+    /* a primeira foto ocupa a largura toda, assim não sobra buraco */
+    .pao-card:first-child{
+        grid-column:1 / -1;
+        height:260px;
+    }
+}
+
+@media(max-width:380px){
+
+    .paes-grid{
+        gap:10px;
+    }
+
+    .pao-card{
+        height:195px;
+        border-radius:14px;
+    }
+
+    .pao-card:first-child{
+        height:230px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="noise"></div>
+<div class="orb one"></div>
+<div class="orb two"></div>
+<div class="orb three"></div>
+
+<!-- =====================================================
+PRELOADER
+===================================================== -->
+
+<div id="preloader">
+
+    <div class="loader-content">
+
+        <img
+            src="logo branca.png"
+            alt="Panificadora Pão Gostoso"
+            class="loader-logo">
+
+        <div class="loader-line"></div>
+
+        <div class="loader-text">
+            Panificadora Pão Gostoso · PPG
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+HEADER
+===================================================== -->
+
+<header id="header">
+
+<nav class="nav">
+
+    <a href="#inicio">
+
+        <img
+            src="logo branca.png"
+            alt="PPG"
+            class="nav-logo">
+
+    </a>
+
+    <div class="nav-links" id="navLinks">
+
+        <a href="#sobre">Nossa história</a>
+        <a href="#produtos">Sabores</a>
+        <a href="#video">Vídeo</a>
+        <a href="#reforma">Antes e depois</a>
+        <a href="#avaliacoes">Avaliações</a>
+        <a href="#horarios">Horários</a>
+        <a href="#local">Onde estamos</a>
+        <a href="#trabalhe">Trabalhe conosco</a>
+
+        <a
+            class="nav-button"
+            href="tel:+5562985785240">
+            Ligar
+        </a>
+
+    </div>
+
+    <button
+        class="menu-button"
+        id="menuButton">
+        ☰
+    </button>
+
+</nav>
+
+</header>
+
+<!-- =====================================================
+HERO
+===================================================== -->
+
+<main>
+
+<section
+    class="hero"
+    id="inicio">
+
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+
+        <img
+            src="logo branca.png"
+            alt="Panificadora Pão Gostoso - PPG"
+            class="main-logo">
+
+        <div class="hero-kicker">
+            Panificadora · Goiânia · GO
+        </div>
+
+        <h1 class="hero-title">
+
+            Um pão.<br>
+            Um café.<br>
+            <span>Um momento.</span>
+
+        </h1>
+
+        <p class="hero-description">
+
+            Sabor, variedade e aquele café que faz parte
+            da rotina. Conheça a Panificadora Pão Gostoso — PPG.
+
+        </p>
+
+        <div class="hero-actions">
+
+            <a
+                href="#produtos"
+                class="btn btn-primary">
+                Conhecer sabores
+            </a>
+
+            <a
+                href="#local"
+                class="btn btn-dark">
+                Como chegar
+            </a>
+
+        </div>
+
+        <div class="hero-info">
+
+            <div>
+
+                <strong>4,8 ★</strong>
+                83 avaliações
+
+            </div>
+
+            <div>
+
+                <strong>R$ 1–20</strong>
+                por pessoa
+
+            </div>
+
+            <div>
+
+                <strong>PPG</strong>
+                Goiânia - GO
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="scroll-indicator">
+        Scroll
+    </div>
+
+</section>
+
+<!-- =====================================================
+SOBRE
+===================================================== -->
+
+<section id="sobre">
+
+<div class="container">
+
+<div class="about-grid">
+
+<div class="about-text reveal">
+
+    <div class="eyebrow">
+        Nossa história
+    </div>
+
+    <h2 class="section-title">
+        Feita para fazer parte do seu dia.
+    </h2>
+
+    <p>
+        A Panificadora Pão Gostoso — PPG é um espaço
+        pensado para quem gosta de começar o dia com
+        bons sabores e variedade.
+    </p>
+
+    <p>
+        Do pão de queijo ao café da manhã, a ideia é
+        oferecer uma experiência simples, gostosa e
+        acolhedora para quem passa por aqui.
+    </p>
+
+    <a
+        href="tel:+5562985785240"
+        class="btn btn-primary">
+        Falar com a padaria
+    </a>
+
+</div>
+
+<div class="about-card reveal">
+
+    <img
+        src="foto da padaria.jpeg"
+        alt="Panificadora Pão Gostoso">
+
+    <div class="about-card-content">
+
+        <span>
+            Panificadora PPG
+        </span>
+
+        <h3>
+            Sabor todos os dias.
+        </h3>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+PRODUTOS
+===================================================== -->
+
+<section id="produtos">
+
+<div class="container">
+
+<div class="section-header reveal">
+
+    <div class="eyebrow">
+        Nosso cardápio
+    </div>
+
+    <h2 class="section-title">
+        Sabores que chamam atenção.
+    </h2>
+
+    <p class="section-description">
+        Confira alguns dos sabores da Panificadora
+        Pão Gostoso.
+    </p>
+
+</div>
+
+<div class="product-category">
+
+<div class="category-title">
+
+    <span class="category-icon">🍰</span>
+
+    <h3>Doces</h3>
+
+    <div class="category-line"></div>
+
+</div>
+
+<h3 class="products-section-title">
+    Doces
+</h3>
+
+<div class="products-grid">
+
+<article class="product-card reveal">
+    <img src="doce1.jpeg" alt="Doce 1">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce2.jpeg" alt="Doce 2">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce3.jpeg" alt="Doce 3">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce4.jpeg" alt="Doce 4">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce5.jpeg" alt="Doce 5">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce6.jpeg" alt="Doce 6">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce7.jpeg" alt="Doce 7">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce8.jpeg" alt="Doce 8">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce9.jpeg" alt="Doce 9">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce10.jpeg" alt="Doce 10">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce11.jpeg" alt="Doce 11">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce12.jpeg" alt="Doce 12">
+</article>
+
+<article class="product-card reveal">
+    <img src="doce13.jpeg" alt="Doce 13">
+</article>
+
+</div>
+
+<h3 class="products-section-title">
+    Salgados
+</h3>
+
+<div class="products-grid">
+
+<article class="product-card reveal">
+    <img src="salgado1.jpeg" alt="Salgado 1">
+</article>
+
+<article class="product-card reveal">
+    <img src="salgado2.jpeg" alt="Salgado 2">
+</article>
+
+<article class="product-card reveal">
+    <img src="salgado3.jpeg" alt="Salgado 3">
+</article>
+
+<article class="product-card reveal">
+    <img src="salgado4.jpeg" alt="Salgado 4">
+</article>
+
+<article class="product-card reveal">
+    <img src="salgado5.jpeg" alt="Salgado 5">
+</article>
+
+<article class="product-card reveal">
+    <img src="salgado6.jpeg" alt="Salgado 6">
+</article>
+
+<article class="product-card reveal">
+    <img src="salgado7.jpeg" alt="Salgado 7">
+</article>
+
+<article class="product-card reveal">
+    <img
+        src="misto quente.jpg"
+        alt="Misto quente">
+</article>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+PÃES — VÍDEO (toca sozinho, sem som) + FOTOS
+===================================================== -->
+
+<section
+    id="paes"
+    class="paes-section">
+
+<div class="container">
+
+<div class="section-header reveal">
+
+    <div class="eyebrow">
+        Nossos pães
+    </div>
+
+    <h2 class="section-title">
+        Pão fresquinho, do jeito que você gosta.
+    </h2>
+
+    <p class="section-description">
+        Dá uma olhada nos pães da Panificadora
+        Pão Gostoso.
+    </p>
+
+</div>
+
+<!--
+    VÍDEO DOS PÃES
+    - sem som (muted) e sem botão de play
+    - começa sozinho quando o cliente chega aqui
+    - pausa sozinho quando o cliente desce
+    Arquivo: MMvideo.mp4 (se o seu for .mov ou .webm, também já está previsto)
+-->
+
+<div class="paes-video-box reveal">
+
+    <video
+        id="paoVideo"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        disablepictureinpicture
+        controlslist="nodownload noremoteplayback"
+        aria-label="Vídeo dos pães da Panificadora Pão Gostoso">
+
+        <source src="MMvideo.mp4" type="video/mp4">
+        <source src="MMvideo.MP4" type="video/mp4">
+        <source src="MMvideo.mov" type="video/quicktime">
+        <source src="MMvidio.mp4" type="video/webm">
+
+    </video>
+
+    <div class="video-caption">
+
+        <h3>
+            Pães de todo dia.
+        </h3>
+
+        <p>
+            Um pouco do que você encontra no balcão da
+            Panificadora Pão Gostoso.
+        </p>
+
+    </div>
+
+</div>
+
+<h3 class="products-section-title">
+    Pãozinho francês
+</h3>
+
+<!-- Procura a foto sozinho como .jpeg, .jpg, .png ou .webp.
+     Se ainda não existir, o espaço fica reservado com o nome da foto. -->
+<script>
+
+const EXTENSOES_MM =
+[".jpeg",".jpg",".png",".webp",".JPG",".JPEG",".PNG",".WEBP"];
+
+function tentarExtensaoMM(img){
+
+    const proxima =
+    Number(img.dataset.tentativa || 0) + 1;
+
+    if(proxima >= EXTENSOES_MM.length){
+
+        img.onerror = null;
+
+        const card =
+        img.closest(".pao-card");
+
+        if(card){
+            card.classList.add("sem-foto");
+        }
+
+        return;
+    }
+
+    img.dataset.tentativa = proxima;
+
+    img.src =
+    img.dataset.nome + EXTENSOES_MM[proxima];
+
+}
+
+</script>
+
+<div class="paes-grid">
+
+<article
+    class="pao-card reveal"
+    data-label="MM1">
+    <img
+        src="MM1.jpeg"
+        alt="Pão 1"
+        data-nome="MM1"
+        onerror="tentarExtensaoMM(this)">
+</article>
+
+<article
+    class="pao-card reveal"
+    data-label="MM2">
+    <img
+        src="MM2.jpeg"
+        alt="Pão 2"
+        data-nome="MM2"
+        onerror="tentarExtensaoMM(this)">
+</article>
+
+<article
+    class="pao-card reveal"
+    data-label="MM3">
+    <img
+        src="MM3.jpeg"
+        alt="Pão 3"
+        data-nome="MM3"
+        onerror="tentarExtensaoMM(this)">
+</article>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+VÍDEO
+===================================================== -->
+
+<section
+    id="video"
+    class="video-section">
+
+<div class="container">
+
+<div class="section-header reveal">
+
+    <div class="eyebrow">
+        Conheça a PPG
+    </div>
+
+    <h2 class="section-title">
+        Um pouco da nossa rotina.
+    </h2>
+
+    <p class="section-description">
+        Veja o vídeo e conheça um pouco mais da
+        Panificadora Pão Gostoso.
+    </p>
+
+</div>
+
+<div class="video-box reveal">
+
+    <video
+        controls
+        playsinline
+        preload="metadata">
+
+        <source
+            src="promesa.mp4"
+            type="video/mp4">
+
+        Seu navegador não consegue reproduzir este vídeo.
+
+    </video>
+
+    <div class="video-caption">
+
+        <h3>
+            A PPG em movimento.
+        </h3>
+
+        <p>
+            Um pouco da nossa história, da nossa rotina
+            e do ambiente da Panificadora Pão Gostoso.
+        </p>
+
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+ANTES E DEPOIS
+===================================================== -->
+
+<section
+    id="reforma"
+    class="before-after-section">
+
+<div class="container">
+
+<div class="section-header reveal">
+
+    <div class="eyebrow">
+        Nossa transformação
+    </div>
+
+    <h2 class="section-title">
+        Antes e depois da reforma.
+    </h2>
+
+</div>
+
+<div class="reform-text reveal">
+
+    <p>
+        A PPG também passou por uma transformação.
+        Veja como era o espaço antes da reforma e como
+        ficou depois.
+    </p>
+
+</div>
+
+<div class="before-after-grid">
+
+    <div class="before-after-card reveal">
+
+        <img
+            src="antes.jpeg"
+            alt="Panificadora Pão Gostoso antes da reforma">
+
+        <div class="before-after-label">
+            Antes
+        </div>
+
+        <div class="before-after-info">
+
+            <h3>
+                Antes da reforma
+            </h3>
+
+            <p>
+                Um registro de como era o espaço
+                antes da transformação.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="before-after-card reveal">
+
+        <img
+            src="depois.jpeg"
+            alt="Panificadora Pão Gostoso depois da reforma">
+
+        <div class="before-after-label">
+            Depois
+        </div>
+
+        <div class="before-after-info">
+
+            <h3>
+                Depois da reforma
+            </h3>
+
+            <p>
+                Um novo visual para continuar recebendo
+                nossos clientes todos os dias.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+DESTAQUE
+===================================================== -->
+
+<section class="highlight">
+
+<div class="container">
+
+<div class="highlight-box reveal">
+
+    <div class="highlight-image">
+
+        <img
+            src="foto da padaria 2.webp"
+            alt="Panificadora Pão Gostoso">
+
+    </div>
+
+    <div class="highlight-content">
+
+        <div class="eyebrow">
+            PPG · Goiânia
+        </div>
+
+        <h2>
+            Café, pão e bons momentos.
+        </h2>
+
+        <p>
+            Um lugar para passar rapidamente, tomar um café,
+            comprar aquele pão fresquinho ou simplesmente
+            aproveitar uma manhã tranquila.
+        </p>
+
+        <div style="margin-top:25px;">
+
+            <a
+                href="#local"
+                class="btn btn-primary">
+                Visitar a PPG
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+AVALIAÇÕES
+===================================================== -->
+
+<section
+    id="avaliacoes"
+    class="google-section">
+
+<div class="container">
+
+<div class="google-rating reveal">
+
+    <div class="google-logo">
+        GOOGLE · AVALIAÇÕES
+    </div>
+
+    <div class="rating-number">
+        4,8
+    </div>
+
+    <div class="stars">
+        ★ ★ ★ ★ ★
+    </div>
+
+    <div class="rating-label">
+        83 avaliações
+    </div>
+
+    <a
+        href="https://www.google.com/search?q=Panificadora+Pao+Gostoso+PPG+Goiânia"
+        target="_blank"
+        class="google-button">
+        ⭐ Avaliar no Google
+    </a>
+
+</div>
+
+<div class="comments-title reveal">
+
+    <div class="eyebrow">
+        O que nossos clientes dizem
+    </div>
+
+    <h3>
+        Comentários dos clientes
+    </h3>
+
+</div>
+
+<div class="comments-grid">
+
+<div class="review reveal">
+
+    <div class="review-stars">
+        ★★★★★
+    </div>
+
+    <p>
+        "Super recomendo, pães deliciosos e equipe nota 10."
+    </p>
+
+    <div class="review-author">
+
+        <div class="review-avatar">
+            C
+        </div>
+
+        <div>
+
+            <strong>
+                Cliente PPG
+            </strong>
+
+            <small>
+                Avaliação no Google
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="review reveal">
+
+    <div class="review-stars">
+        ★★★★★
+    </div>
+
+    <p>
+        "Tem uma mini mercearia que direto socorre a gente
+        em uma emergência."
+    </p>
+
+    <div class="review-author">
+
+        <div class="review-avatar">
+            M
+        </div>
+
+        <div>
+
+            <strong>
+                Cliente PPG
+            </strong>
+
+            <small>
+                Avaliação no Google
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="review reveal">
+
+    <div class="review-stars">
+        ★★★★★
+    </div>
+
+    <p>
+        "Comida excelente e muitas variedades para tomar
+        um café da manhã."
+    </p>
+
+    <div class="review-author">
+
+        <div class="review-avatar">
+            A
+        </div>
+
+        <div>
+
+            <strong>
+                Cliente PPG
+            </strong>
+
+            <small>
+                Avaliação no Google
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<div class="comment-form-box reveal">
+
+    <div class="eyebrow">
+        Sua opinião
+    </div>
+
+    <h4>
+        Deixe seu comentário
+    </h4>
+
+    <p>
+        Conte para a PPG como foi sua experiência.
+        Ao enviar, seu comentário será encaminhado
+        diretamente pelo WhatsApp.
+    </p>
+
+    <form
+        class="comment-form"
+        id="commentForm">
+
+        <input
+            class="field"
+            type="text"
+            id="commentName"
+            placeholder="Seu nome"
+            required>
+
+        <textarea
+            class="field"
+            id="commentText"
+            placeholder="Escreva seu comentário..."
+            required></textarea>
+
+        <button
+            class="comment-submit"
+            type="submit">
+            Enviar comentário pelo WhatsApp
+        </button>
+
+    </form>
+
+    <div class="comment-note">
+        Seu comentário será enviado para o WhatsApp da Panificadora Pão Gostoso.
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+HORÁRIOS
+===================================================== -->
+
+<section id="horarios">
+
+<div class="container">
+
+<div class="section-header reveal">
+
+    <div class="eyebrow">
+        Funcionamento
+    </div>
+
+    <h2 class="section-title">
+        Quando estamos por aqui.
+    </h2>
+
+</div>
+
+<div class="hours-grid">
+
+<div class="hours-list reveal">
+
+    <div class="hours-row">
+        <span>Segunda</span>
+        <span>Consultar horário</span>
+    </div>
+
+    <div class="hours-row">
+        <span>Terça</span>
+        <span>Consultar horário</span>
+    </div>
+
+    <div class="hours-row">
+        <span>Quarta</span>
+        <span>Consultar horário</span>
+    </div>
+
+    <div class="hours-row">
+        <span>Quinta</span>
+        <span>Consultar horário</span>
+    </div>
+
+    <div class="hours-row">
+        <span>Sexta</span>
+        <span>06:00 em diante</span>
+    </div>
+
+    <div class="hours-row">
+        <span>Sábado</span>
+        <span>Consultar horário</span>
+    </div>
+
+    <div class="hours-row">
+        <span>Domingo</span>
+        <span>Consultar horário</span>
+    </div>
+
+</div>
+
+<div class="hours-note reveal">
+
+    <strong style="color:#920d15;">
+        Horários especiais
+    </strong>
+
+    <p style="margin-top:12px;">
+        Os horários podem sofrer alterações.
+        Para confirmar o funcionamento antes de sair,
+        entre em contato diretamente com a PPG.
+    </p>
+
+    <a
+        href="tel:+5562985785240"
+        class="btn btn-primary"
+        style="margin-top:20px;">
+        Ligar agora
+    </a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+LOCALIZAÇÃO
+===================================================== -->
+
+<section id="local">
+
+<div class="container">
+
+<div class="section-header reveal">
+
+    <div class="eyebrow">
+        Onde estamos
+    </div>
+
+    <h2 class="section-title">
+        Venha nos visitar.
+    </h2>
+
+</div>
+
+<div class="location-grid">
+
+<div class="location-card reveal">
+
+<div>
+
+    <div class="eyebrow">
+        Endereço
+    </div>
+
+    <h3>
+        Setor Negrão de Lima
+    </h3>
+
+    <p>
+        R. Dona Gercina, Qd. 16 - Lt. 10<br>
+        Nº 175<br>
+        Setor Negrão de Lima<br>
+        Goiânia - GO<br>
+        CEP 74650-060
+    </p>
+
+</div>
+
+<a
+    href="https://www.google.com/maps/search/?api=1&query=Panificadora+Pao+Gostoso+PPG+Goiânia+GO"
+    target="_blank"
+    class="btn btn-primary"
+    style="text-align:center;">
+    Abrir no Google Maps
+</a>
+
+</div>
+
+<div class="location-card map-card reveal">
+
+    <div class="map-pattern"></div>
+
+    <div class="map-pin">
+        ●
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+TRABALHE CONOSCO
+===================================================== -->
+
+<section
+    id="trabalhe"
+    class="work-section">
+
+<div class="container">
+
+<div class="work-grid">
+
+<div class="work-copy reveal">
+
+    <div class="eyebrow">
+        Oportunidades
+    </div>
+
+    <h2>
+        Trabalhe<br>
+        conosco.
+    </h2>
+
+    <p>
+        Quer fazer parte da equipe PPG?
+        Envie seus dados e conte um pouco sobre você.
+    </p>
+
+</div>
+
+<form
+    class="work-form reveal"
+    id="workForm">
+
+<div class="form-row">
+
+    <input
+        class="field"
+        type="text"
+        id="nome"
+        placeholder="Seu nome"
+        required>
+
+    <input
+        class="field"
+        type="tel"
+        id="telefone"
+        placeholder="Seu telefone"
+        required>
+
+</div>
+
+<input
+    class="field"
+    type="email"
+    id="email"
+    placeholder="Seu e-mail">
+
+<select
+    class="field"
+    id="vaga"
+    required>
+
+    <option value="">
+        Área de interesse
+    </option>
+
+    <option>Atendimento</option>
+    <option>Padaria</option>
+    <option>Caixa</option>
+    <option>Produção</option>
+    <option>Outra área</option>
+
+</select>
+
+<textarea
+    class="field"
+    id="mensagem"
+    placeholder="Conte um pouco sobre você..."></textarea>
+
+<label class="file-label">
+
+    📎 Anexar currículo
+
+    <input
+        type="file"
+        id="curriculo"
+        accept=".pdf,.doc,.docx">
+
+</label>
+
+<button
+    class="submit-button"
+    type="submit">
+    Enviar interesse pelo WhatsApp
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+CONTATO
+===================================================== -->
+
+<section class="contact">
+
+<div class="container reveal">
+
+    <div class="eyebrow">
+        Fale com a PPG
+    </div>
+
+    <h2 class="contact-title">
+        Até já.
+    </h2>
+
+    <p class="contact-sub">
+        Estamos esperando por você.
+    </p>
+
+    <div class="contact-buttons">
+
+        <a
+            href="tel:+5562985785240"
+            class="btn btn-primary">
+            ☎ Ligar
+        </a>
+
+        <a
+            href="https://wa.me/5562985785240?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20Panificadora%20Pão%20Gostoso"
+            target="_blank"
+            class="btn btn-dark">
+            WhatsApp
+        </a>
+
+        <a
+            href="https://www.google.com/maps/search/?api=1&query=Panificadora+Pao+Gostoso+PPG+Goiânia+GO"
+            target="_blank"
+            class="btn btn-dark">
+            Rotas
+        </a>
+
+        <!-- INSTAGRAM -->
+
+        <a
+            href="https://www.instagram.com/_panificadorapaogostoso_/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="instagram-button"
+            aria-label="Instagram da Panificadora Pão Gostoso">
+
+            <span class="instagram-icon"></span>
+
+            <span class="instagram-handle">
+                @_panificadorapaogostoso_
+            </span>
+
+        </a>
+
+    </div>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- =====================================================
+FOOTER
+===================================================== -->
+
+<footer>
+
+<div class="footer-inner">
+
+    <img
+        src="p.png"
+        alt="Panificadora Pão Gostoso"
+        class="footer-logo">
+
+    <div class="footer-text">
+
+        © 2026 Panificadora Pão Gostoso — PPG<br>
+        Setor Negrão de Lima · Goiânia - GO
+        <br>
+
+        <!-- INSTAGRAM NO RODAPÉ -->
+
+        <a
+            href="https://www.instagram.com/_panificadorapaogostoso_/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-instagram"
+            aria-label="Instagram da Panificadora Pão Gostoso">
+
+            <span class="instagram-icon"></span>
+
+            <span>
+                @_panificadorapaogostoso_
+            </span>
+
+        </a>
+
+    </div>
+
+</div>
+
+</footer>
+
+<!-- =====================================================
+WHATSAPP
+===================================================== -->
+
+<a
+    class="whatsapp"
+    href="https://wa.me/5562985785240?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20Panificadora%20Pão%20Gostoso"
+    target="_blank"
+    aria-label="WhatsApp">
+    ☎
+</a>
+
+<script>
+
+/* =========================================================
+ABRIR O SITE SEMPRE NO INÍCIO
+========================================================= */
+
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+
+function abrirNoInicio(){
+
+    window.scrollTo(0,0);
+
+    document.documentElement.scrollTop = 0;
+
+    document.body.scrollTop = 0;
+
+}
+
+window.addEventListener("DOMContentLoaded",abrirNoInicio);
+
+window.addEventListener("pageshow",(event)=>{
+
+    if(!event.persisted){
+        abrirNoInicio();
+    }
+
+});
+
+/* =========================================================
+PRELOADER
+========================================================= */
+
+window.addEventListener("load",()=>{
+
+    setTimeout(()=>{
+
+        document
+        .getElementById("preloader")
+        .classList
+        .add("hide");
+
+    },1800);
+
+});
+
+/* =========================================================
+HEADER
+========================================================= */
+
+/*
+   REMOVIDO O EFEITO DE HEADER NO SCROLL.
+   O HEADER NÃO MUDA MAIS DE COR E NÃO CRIA
+   NENHUMA FAIXA BRANCA.
+*/
+
+/* =========================================================
+MENU MOBILE
+========================================================= */
+
+const menuButton =
+document.getElementById("menuButton");
+
+const navLinks =
+document.getElementById("navLinks");
+
+menuButton.addEventListener("click",()=>{
+
+    navLinks.classList.toggle("open");
+
+});
+
+document
+.querySelectorAll(".nav-links a")
+.forEach(link=>{
+
+    link.addEventListener("click",()=>{
+
+        navLinks.classList.remove("open");
+
+    });
+
+});
+
+/* =========================================================
+SCROLL REVEAL
+========================================================= */
+
+const revealElements =
+document.querySelectorAll(".reveal");
+
+const observer =
+new IntersectionObserver(
+    entries=>{
+
+        entries.forEach(entry=>{
+
+            if(entry.isIntersecting){
+
+                entry.target
+                .classList
+                .add("active");
+
+                observer.unobserve(
+                    entry.target
+                );
+
+            }
+
+        });
+
+    },
+    {
+        threshold:.12
+    }
+);
+
+revealElements.forEach(element=>{
+    observer.observe(element);
+});
+
+/* =========================================================
+VÍDEO DOS PÃES — TOCA SOZINHO AO CHEGAR, PAUSA AO SAIR
+(sempre sem som)
+========================================================= */
+
+const paoVideo =
+document.getElementById("paoVideo");
+
+if(paoVideo){
+
+    /* garante que o vídeo fica sem som em qualquer navegador */
+    paoVideo.muted = true;
+    paoVideo.defaultMuted = true;
+    paoVideo.volume = 0;
+    paoVideo.setAttribute("muted","");
+
+    let paoVisivel = false;
+
+    function tocarPao(){
+
+        const promessa =
+        paoVideo.play();
+
+        if(promessa && promessa.catch){
+            promessa.catch(()=>{});
+        }
+
+    }
+
+    const paoObserver =
+    new IntersectionObserver(
+        entries=>{
+
+            entries.forEach(entry=>{
+
+                paoVisivel =
+                entry.isIntersecting;
+
+                if(paoVisivel){
+
+                    tocarPao();
+
+                }else{
+
+                    paoVideo.pause();
+
+                }
+
+            });
+
+        },
+        {
+            threshold:.35
+        }
+    );
+
+    paoObserver.observe(paoVideo);
+
+    /* se o cliente trocar de aba, pausa; ao voltar, retoma se estiver na tela */
+    document.addEventListener("visibilitychange",()=>{
+
+        if(document.hidden){
+
+            paoVideo.pause();
+
+        }else if(paoVisivel){
+
+            tocarPao();
+
+        }
+
+    });
+
+}
+
+/* =========================================================
+TRABALHE CONOSCO → WHATSAPP
+========================================================= */
+
+const workForm =
+document.getElementById("workForm");
+
+workForm.addEventListener("submit",(event)=>{
+
+    event.preventDefault();
+
+    const nome =
+    document.getElementById("nome").value.trim();
+
+    const telefone =
+    document.getElementById("telefone").value.trim();
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const vaga =
+    document.getElementById("vaga").value;
+
+    const mensagem =
+    document.getElementById("mensagem").value.trim();
+
+    const curriculo =
+    document.getElementById("curriculo");
+
+    let arquivo =
+    "Não anexado";
+
+    if(curriculo.files.length){
+
+        arquivo =
+        curriculo.files[0].name;
+
+    }
+
+    const texto =
+`Olá! Tenho interesse em trabalhar na Panificadora Pão Gostoso - PPG.
+
+Nome: ${nome}
+
+Telefone: ${telefone}
+
+E-mail: ${email || "Não informado"}
+
+Área de interesse: ${vaga}
+
+Mensagem:
+
+${mensagem || "Não informada."}
+
+Currículo: ${arquivo}
+
+Enviei meu interesse através do site.`;
+
+    const url =
+    "https://wa.me/5562985785240?text="
+    +
+    encodeURIComponent(texto);
+
+    window.open(url,"_blank");
+
+});
+
+/* =========================================================
+COMENTÁRIO → WHATSAPP
+========================================================= */
+
+const commentForm =
+document.getElementById("commentForm");
+
+if(commentForm){
+
+    commentForm.addEventListener("submit",(event)=>{
+
+        event.preventDefault();
+
+        const nome =
+        document.getElementById("commentName").value.trim();
+
+        const comentario =
+        document.getElementById("commentText").value.trim();
+
+        if(!nome || !comentario) return;
+
+        const texto =
+`Olá! Recebi um novo comentário através do site da Panificadora Pão Gostoso - PPG.
+
+Nome: ${nome}
+
+Comentário:
+
+${comentario}`;
+
+        const url =
+        "https://wa.me/5562985785240?text="
+        +
+        encodeURIComponent(texto);
+
+        window.open(url,"_blank");
+
+    });
+
+}
+
+/* =========================================================
+PARALLAX HERO
+========================================================= */
+
+window.addEventListener("scroll",()=>{
+
+    const hero =
+    document.querySelector(".hero-content");
+
+    if(!hero) return;
+
+    const y =
+    window.scrollY;
+
+    if(y < window.innerHeight){
+
+        hero.style.transform =
+        `translateY(${y * .08}px)`;
+
+        hero.style.opacity =
+        Math.max(
+            0,
+            1-y/700
+        );
+
+    }
+
+});
+
+/* =========================================================
+CURSOR GLOW
+========================================================= */
+
+const cursorGlow =
+document.createElement("div");
+
+cursorGlow.style.position="fixed";
+cursorGlow.style.width="220px";
+cursorGlow.style.height="220px";
+cursorGlow.style.borderRadius="50%";
+cursorGlow.style.pointerEvents="none";
+cursorGlow.style.zIndex="-1";
+cursorGlow.style.background=
+"radial-gradient(circle,rgba(255,255,255,.035),transparent 70%)";
+cursorGlow.style.transform=
+"translate(-50%,-50%)";
+
+document.body.appendChild(cursorGlow);
+
+document.addEventListener(
+"mousemove",
+e=>{
+
+    cursorGlow.style.left =
+    e.clientX+"px";
+
+    cursorGlow.style.top =
+    e.clientY+"px";
+
+});
+
+/* =========================================================
+IMAGENS DOS PRODUTOS — FALLBACK
+========================================================= */
+
+function trocarExtensao(img,nome){
+
+    const extensoes =
+    [".jpg",".png",".webp"];
+
+    let tentativa =
+    Number(img.dataset.tentativa || 0);
+
+    if(tentativa >= extensoes.length){
+
+        img.style.opacity=".15";
+
+        img.alt=nome;
+
+        return;
+    }
+
+    img.dataset.tentativa =
+    tentativa+1;
+
+    img.src =
+    nome+extensoes[tentativa];
+
+}
+
+</script>
+
+</body>
+</html>
